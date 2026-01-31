@@ -19,6 +19,10 @@ export function pegarUI() {
     penalidadeArmadura: $id("penalidadeArmadura"),
     statusPenalidade: $id("statusPenalidade"),
 
+    // Classe
+    classe: $id("classe"),
+    statusClasse: $id("statusClasse"),
+
     // ===== COMBATE =====
     vidaAtual: $id("vidaAtual"),
     vidaMax: $id("vidaMax"),

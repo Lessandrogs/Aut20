@@ -24,11 +24,12 @@ function renderAtributo(personagem, inputEl, modEl, statusEl, nomeChave) {
 function renderBase(personagem, ui) {
   ui.nivel.value = String(personagem.nivel);
   ui.penalidadeArmadura.value = String(personagem.penalidadeArmadura);
-
+  ui.classe.value = personagem.classeId ?? "";
   ui.meioNivel.textContent = String(calcularMeioNivel(personagem.nivel));
 
   ui.statusNivel.textContent = "OK";
   ui.statusPenalidade.textContent = "OK";
+  ui.statusClasse.textContent = personagem.classeId ? "OK" : "";
 }
 
 function renderAtributos(personagem, ui) {

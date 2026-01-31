@@ -4,7 +4,7 @@ console.log("APP.JS CARREGADO DE:", import.meta.url);
 import { personagem } from "./state.js";
 import { pegarUI } from "./ui/dom.js";
 import { renderTudo } from "./ui/render.js";
-
+import { bindClass } from "./events/bindClass.js";
 import { bindBase } from "./events/bindBase.js";
 import { bindAttributes } from "./events/bindAttributes.js";
 import { bindSkills } from "./events/bindSkills.js";
@@ -24,6 +24,7 @@ export function initApp() {
   bindAttributes(personagem, ui, onChange);
   bindSkills(personagem, ui, onChange);
   bindResources(personagem, ui, onChange);
+  bindClass(personagem, ui, onChange);
 }
 
 function initAppSafe() {
