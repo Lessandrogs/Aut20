@@ -9,11 +9,14 @@ import { bindBase } from "./events/bindBase.js";
 import { bindAttributes } from "./events/bindAttributes.js";
 import { bindSkills } from "./events/bindSkills.js";
 import { bindResources } from "./events/bindResources.js";
+import { bindThemeToggle } from "./ui/theme.js";
 
 export function initApp() {
   console.log("script carregou (módulos)");
 
   const ui = pegarUI();
+  const btnTheme = document.getElementById("themeToggle");
+  if (btnTheme) bindThemeToggle(btnTheme);
   const onChange = () => renderTudo(personagem, ui);
 
   // render inicial

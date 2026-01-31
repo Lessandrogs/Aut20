@@ -1,22 +1,59 @@
+/* ===== Tema via CSS variables (base) ===== */
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f8;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+
+  --primary: #2563eb;
+
+  --shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* ===== Tema escuro ===== */
+/* IMPORTANTE: funciona se você setar data-theme="dark" no <html> */
+:root[data-theme="dark"] {
+  --bg: #0b0f19;
+  --surface: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #243043;
+
+  --primary: #60a5fa;
+
+  --shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* ===== Base do layout ===== */
 body {
   font-family: Arial, sans-serif;
   max-width: 980px;
   margin: 24px auto;
   padding: 0 12px;
+
+  /* >>> aqui é o coração do dark mode <<< */
+  background: var(--bg);
+  color: var(--text);
 }
 
 section {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 14px;
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .card {
-  border: 1px solid #eee;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px;
   margin-top: 10px;
+
+  background: var(--bg);
 }
 
 .row {
@@ -31,29 +68,46 @@ label {
   font-weight: bold;
 }
 
+input[type="number"],
+input[type="text"],
+select {
+  width: 140px;
+  max-width: 100%;
+  padding: 6px 8px;
+
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
 input[type="number"] {
   width: 90px;
 }
 
 .hint {
   margin: 6px 0 10px;
-  color: #444;
+  color: var(--muted);
 }
 
+/* ===== Tabela de perícias ===== */
 .skills-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+
+  background: var(--bg);
 }
 
-.skills-table th, .skills-table td {
-  border: 1px solid #e6e6e6;
+.skills-table th,
+.skills-table td {
+  border: 1px solid var(--border);
   padding: 8px;
   text-align: left;
 }
 
 .skills-table th {
-  background: #f6f6f6;
+  background: var(--surface);
 }
 
 .skill-name-wrap {
@@ -68,7 +122,7 @@ input[type="number"] {
 
 .skill-g {
   font-weight: 700;
-  color: #666;
+  color: var(--muted);
 }
 
 .skill-custom-name {
