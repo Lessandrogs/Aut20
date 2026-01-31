@@ -2,10 +2,20 @@
 // Responsável por:
 // 1) Criar a tabela (uma vez)
 // 2) Renderizar os valores das perícias (sempre que o estado muda)
+//
+// Inclui:
+// - Destaque visual para perícias “Somente Treinado (G)”
+// - Badge “Treinado (+2/+4/+6)” conforme nível
+// - Tooltip na penalidade explicando “por quê”
+// - Tooltip no total mostrando o breakdown do cálculo (fundação escalável)
 
 import { SKILLS } from "../skills.js";
 import { calcularModificador, formatarMod } from "../calc/attributes.js";
-import { calcularMeioNivel, calcularPericiaTotal } from "../calc/skillsCalc.js";
+import {
+  calcularMeioNivel,
+  calcularPericiaTotal,
+  bonusTreino,
+} from "../calc/skillsCalc.js";
 
 /**
  * Converte atributo base em abreviação (ex.: destreza -> DES)
@@ -53,6 +63,11 @@ export function criarTabelaPericiasSeNaoExiste(ui) {
     // ✅ IMPORTANTE: setAttribute garante consistência com querySelector/closest
     tr.setAttribute("data-skill-id", def.id);
 
+    // UI: marca visualmente perícias “Somente Treinado (G)” para facilitar leitura.
+    if (def.soTreinado) {
+      tr.classList.add("skill-g-only");
+    }
+
     // ===== Nome =====
     const nomeCell = document.createElement("td");
     nomeCell.className = "skill-name";
@@ -87,12 +102,28 @@ export function criarTabelaPericiasSeNaoExiste(ui) {
     const atrCell = document.createElement("td");
     atrCell.textContent = abreviarAtributo(def.atributoBase);
 
-    // ===== Treinado (checkbox) =====
+    // ===== Treinado (checkbox + badge) =====
     const treinadoCell = document.createElement("td");
+
+    // FIX/UI: usamos um label para agrupar o checkbox e o texto do bônus.
+    // Isso melhora clique (clicar no texto marca/desmarca) e facilita estilização.
+    const trainLabel = document.createElement("label");
+    trainLabel.className = "skill-train-label";
+
     const chk = document.createElement("input");
     chk.type = "checkbox";
     chk.dataset.role = "treinado";
-    treinadoCell.appendChild(chk);
+
+    // FIX/UI: badge dinâmico para mostrar +2 / +4 / +6 conforme nível.
+    // O texto real será preenchido em renderPericias().
+    const trainBonusSpan = document.createElement("span");
+    trainBonusSpan.className = "skill-train-bonus";
+    trainBonusSpan.dataset.role = "trainBonus";
+    trainBonusSpan.textContent = ""; // placeholder
+
+    trainLabel.appendChild(chk);
+    trainLabel.appendChild(trainBonusSpan);
+    treinadoCell.appendChild(trainLabel);
 
     // ===== Outros (number) =====
     const outrosCell = document.createElement("td");
@@ -143,6 +174,7 @@ export function renderPericias(personagem, ui) {
     const st = personagem.pericias[def.id];
 
     const chk = tr.querySelector(`[data-role="treinado"]`);
+    const trainBonusSpan = tr.querySelector(`[data-role="trainBonus"]`);
     const outrosInput = tr.querySelector(`[data-role="outros"]`);
     const totalSpan = tr.querySelector(`[data-role="total"]`);
     const penSpan = tr.querySelector(`[data-role="pen"]`);
@@ -153,18 +185,47 @@ export function renderPericias(personagem, ui) {
     chk.checked = !!st.treinado;
     outrosInput.value = String(st.outros ?? 0);
 
+    // FIX/UI: mostra o bônus de treino atual (+2/+4/+6) quando treinado.
+    // Quando não treinado, deixamos vazio para não poluir a tabela.
+    if (trainBonusSpan) {
+      if (!st.treinado) {
+        trainBonusSpan.textContent = "";
+        trainBonusSpan.title = "Marque para indicar que você é treinado nesta perícia.";
+      } else {
+        const b = bonusTreino(true, Number(personagem.nivel));
+        trainBonusSpan.textContent = `(+${b})`;
+        // UI: tooltip explicando a progressão do bônus de treino.
+        trainBonusSpan.title =
+          "Bônus de treino: +2 (níveis 1–6), +4 (7–14), +6 (15+).";
+      }
+    }
+
     // Modificador do atributo base da perícia
     const atributoValor = personagem.atributos[def.atributoBase];
     const modAtr = calcularModificador(atributoValor);
 
-    // Penalidade só entra se a perícia estiver marcada
-    const penalidade = def.sofrePenalidadeArmadura ? personagem.penalidadeArmadura : 0;
-    penSpan.textContent = penalidade ? `-${penalidade}` : "0";
+    // UI/UX: só mostra penalidade quando a perícia realmente sofre penalidade de armadura.
+    // Para as demais, mostramos “—” (não aplicável) e o cálculo segue com penalidade 0.
+    const penalidade = def.sofrePenalidadeArmadura
+      ? personagem.penalidadeArmadura
+      : 0;
+
+    penSpan.textContent = def.sofrePenalidadeArmadura
+      ? (penalidade ? `-${penalidade}` : "0")
+      : "—";
+
+    // UI: tooltip explicando a penalidade de armadura (ou por que não se aplica).
+    penSpan.title = def.sofrePenalidadeArmadura
+      ? "Penalidade de armadura: esta perícia exige liberdade de movimento. Se estiver usando armadura/escudo, sofre penalidade."
+      : "Esta perícia não sofre penalidade de armadura.";
 
     // Se for “Somente Treinado (G)” e não estiver treinado, mostra “—”
     if (def.soTreinado && !st.treinado) {
       totalSpan.textContent = "—";
       totalSpan.classList.add("skill-disabled");
+      // UI: tooltip explicando por que não dá para usar a perícia.
+      totalSpan.title =
+        "Somente treinado (G): você só pode usar esta perícia se for treinado nela.";
       continue;
     }
 
@@ -172,6 +233,7 @@ export function renderPericias(personagem, ui) {
 
     // Cálculo do total
     const total = calcularPericiaTotal({
+      nivel: Number(personagem.nivel), // FIX: necessário para o bônus escalar (+2/+4/+6)
       meioNivel: meio,
       modAtributo: modAtr,
       treinado: !!st.treinado,
@@ -180,5 +242,19 @@ export function renderPericias(personagem, ui) {
     });
 
     totalSpan.textContent = formatarMod(total);
+
+    // UI: tooltip com breakdown do cálculo do total.
+    // Isso ajuda o usuário a entender de onde vem cada parcela (fundação escalável).
+    const nivelNum = Number(personagem.nivel);
+    const outrosVal = Number(st.outros ?? 0);
+    const treinoVal = st.treinado ? bonusTreino(true, nivelNum) : 0;
+
+    totalSpan.title =
+      `Cálculo: meio nível (${meio}) + ` +
+      `${abreviarAtributo(def.atributoBase)} (${formatarMod(modAtr)}) + ` +
+      `treino (${treinoVal ? `+${treinoVal}` : "+0"}) + ` +
+      `outros (${outrosVal >= 0 ? `+${outrosVal}` : `${outrosVal}`}) - ` +
+      `penalidade (${penalidade}) = ` +
+      `${formatarMod(total)}`;
   }
 }

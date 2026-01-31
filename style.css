@@ -141,3 +141,38 @@ input[type="number"] {
 .skill-disabled {
   opacity: 0.6;
 }
+
+/* ===== UI: Treinado (+2/+4/+6) ===== */
+/* FIX: label agrupando checkbox + badge deixa o clique mais fácil e alinha visualmente. */
+.skill-train-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* FIX: badge discreto do bônus de treino, usa variáveis do tema (funciona no dark mode). */
+.skill-train-bonus {
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+/* ===== Destaque: perícias “Somente Treinado (G)” ===== */
+/* UI: dá uma pista visual sem quebrar dark mode (usa vars). */
+.skills-table tr.skill-g-only td.skill-name {
+  background: var(--surface);
+}
+
+/* UI: reforça o “G” e o nome sem usar cor fixa forte */
+.skills-table tr.skill-g-only .skill-label {
+  font-weight: 800;
+}
+
+.skills-table tr.skill-g-only .skill-g {
+  opacity: 1;
+}
+
+/* UI: quando a perícia G não está treinada (fica “—”), deixa ainda mais claro */
+.skills-table tr.skill-g-only .skill-disabled {
+  opacity: 0.55;
+  font-style: italic;
+}
