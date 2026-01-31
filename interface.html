@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>auT20</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>auT20</h1>
+
+  <!-- ===== BASE ===== -->
+  <section>
+    <h2>Base</h2>
+
+    <div class="row">
+      <label for="nivel">Nível</label>
+      <input type="number" id="nivel" min="1" value="1" />
+      <span id="statusNivel"></span>
+      <p class="hint">1/2 do nível: <strong><span id="meioNivel">0</span></strong></p>
+    </div>
+
+    <div class="row">
+      <label for="penalidadeArmadura">Penalidade Armadura</label>
+      <input type="number" id="penalidadeArmadura" value="0" />
+      <span id="statusPenalidade"></span>
+    </div>
+  </section>
+
+  <!-- ===== COMBATE ===== -->
+  <section>
+    <h2>Combate</h2>
+
+    <div class="row">
+      <label>Vida</label>
+      <input type="number" id="vidaAtual" value="0" />
+      <span>/</span>
+      <strong><span id="vidaMax">0</span></strong>
+    </div>
+
+    <div class="row">
+      <label>Mana</label>
+      <input type="number" id="manaAtual" value="0" />
+      <span>/</span>
+      <strong><span id="manaMax">0</span></strong>
+    </div>
+
+    <div class="row">
+      <label>Defesa</label>
+      <strong><span id="defesa">10</span></strong>
+    </div>
+  </section>
+
+  <!-- ===== ATRIBUTOS ===== -->
+  <section>
+    <h2>Atributos</h2>
+
+    <div class="card">
+      <label for="forca">Força</label>
+      <input type="number" id="forca" min="1" max="20" value="10" />
+      <span id="statusForca"></span>
+      <p>Modificador: <span id="modForca">+0</span></p>
+    </div>
+
+    <div class="card">
+      <label for="destreza">Destreza</label>
+      <input type="number" id="destreza" min="1" max="20" value="10" />
+      <span id="statusDestreza"></span>
+      <p>Modificador: <span id="modDestreza">+0</span></p>
+    </div>
+
+    <div class="card">
+      <label for="constituicao">Constituição</label>
+      <input type="number" id="constituicao" min="1" max="20" value="10" />
+      <span id="statusConstituicao"></span>
+      <p>Modificador: <span id="modConstituicao">+0</span></p>
+    </div>
+
+    <div class="card">
+      <label for="inteligencia">Inteligência</label>
+      <input type="number" id="inteligencia" min="1" max="20" value="10" />
+      <span id="statusInteligencia"></span>
+      <p>Modificador: <span id="modInteligencia">+0</span></p>
+    </div>
+
+    <div class="card">
+      <label for="sabedoria">Sabedoria</label>
+      <input type="number" id="sabedoria" min="1" max="20" value="10" />
+      <span id="statusSabedoria"></span>
+      <p>Modificador: <span id="modSabedoria">+0</span></p>
+    </div>
+
+    <div class="card">
+      <label for="carisma">Carisma</label>
+      <input type="number" id="carisma" min="1" max="20" value="10" />
+      <span id="statusCarisma"></span>
+      <p>Modificador: <span id="modCarisma">+0</span></p>
+    </div>
+  </section>
+
+  <!-- ===== PERÍCIAS ===== -->
+  <section>
+    <h2>Perícias</h2>
+    <div class="hint">
+      <strong>G</strong> = Somente treinado. Penalidade de armadura será aplicada onde marcado.
+    </div>
+    <div id="skillsContainer"></div>
+  </section>
+
+  <script type="module" src="./app/app.js"></script>
+</body>
+</html>

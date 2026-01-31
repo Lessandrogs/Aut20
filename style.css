@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+section {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+label {
+  width: 180px;
+  font-weight: bold;
+}
+
+input[type="number"] {
+  width: 90px;
+}
+
+.hint {
+  margin: 6px 0 10px;
+  color: #444;
+}
+
+.skills-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.skills-table th, .skills-table td {
+  border: 1px solid #e6e6e6;
+  padding: 8px;
+  text-align: left;
+}
+
+.skills-table th {
+  background: #f6f6f6;
+}
+
+.skill-name-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skill-label {
+  font-weight: 700;
+}
+
+.skill-g {
+  font-weight: 700;
+  color: #666;
+}
+
+.skill-custom-name {
+  width: 220px;
+  max-width: 100%;
+}
+
+.skill-outros {
+  width: 90px;
+}
+
+.skill-total {
+  font-weight: 700;
+}
+
+.skill-disabled {
+  opacity: 0.6;
+}
