@@ -34,11 +34,41 @@ function renderBase(personagem, ui) {
 
 function renderAtributos(personagem, ui) {
   renderAtributo(personagem, ui.forca, ui.modForca, ui.statusForca, "forca");
-  renderAtributo(personagem, ui.destreza, ui.modDestreza, ui.statusDestreza, "destreza");
-  renderAtributo(personagem, ui.constituicao, ui.modConstituicao, ui.statusConstituicao, "constituicao");
-  renderAtributo(personagem, ui.inteligencia, ui.modInteligencia, ui.statusInteligencia, "inteligencia");
-  renderAtributo(personagem, ui.sabedoria, ui.modSabedoria, ui.statusSabedoria, "sabedoria");
-  renderAtributo(personagem, ui.carisma, ui.modCarisma, ui.statusCarisma, "carisma");
+  renderAtributo(
+    personagem,
+    ui.destreza,
+    ui.modDestreza,
+    ui.statusDestreza,
+    "destreza"
+  );
+  renderAtributo(
+    personagem,
+    ui.constituicao,
+    ui.modConstituicao,
+    ui.statusConstituicao,
+    "constituicao"
+  );
+  renderAtributo(
+    personagem,
+    ui.inteligencia,
+    ui.modInteligencia,
+    ui.statusInteligencia,
+    "inteligencia"
+  );
+  renderAtributo(
+    personagem,
+    ui.sabedoria,
+    ui.modSabedoria,
+    ui.statusSabedoria,
+    "sabedoria"
+  );
+  renderAtributo(
+    personagem,
+    ui.carisma,
+    ui.modCarisma,
+    ui.statusCarisma,
+    "carisma"
+  );
 }
 
 /**
@@ -60,7 +90,8 @@ function renderRecursos(personagem, ui) {
   personagem.recursos.defesa = defesa;
 
   // “Clamp” dos atuais (não deixa passar do máximo)
- function clampRecursos(personagem, pvMax, pmMax) {
+  // FIX: precisa rodar aqui, porque pvMax/pmMax mudam quando nível/CON/classe mudam,
+  // mesmo que o usuário não mexa manualmente no input de PV/PM.
   personagem.recursos.pvAtual = clampInt(
     personagem.recursos.pvAtual,
     0,
@@ -74,7 +105,7 @@ function renderRecursos(personagem, ui) {
     pmMax,
     pmMax
   );
-}
+
   // Render na UI
   ui.vidaMax.textContent = String(pvMax);
   ui.manaMax.textContent = String(pmMax);
@@ -91,6 +122,6 @@ export function renderTudo(personagem, ui) {
   criarTabelaPericiasSeNaoExiste(ui);
   renderPericias(personagem, ui);
 
-  // Agora recursos entram no fluxo padrão
+  // Recursos entram no fluxo padrão
   renderRecursos(personagem, ui);
 }

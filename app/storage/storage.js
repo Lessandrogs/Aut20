@@ -36,6 +36,45 @@ export function loadJSON(key, fallback = null) {
   }
 }
 
+// ==== NOVAS KEYS (multi-personagem) ====
+// FIX: PREFIX não existe. Usamos k() para garantir que KEY_PREFIX (aut20) seja aplicado sempre,
+// evitando ReferenceError e padronizando todas as chaves.
+export function keyCharList(username) {
+  // Lista de personagens do usuário (ids + nomes + meta)
+  return k("user", username, "chars");
+}
+
+export function keyActiveChar(username) {
+  // Personagem “ativo” do usuário (ex.: "main")
+  return k("user", username, "activeChar");
+}
+
+/**
+ * key da ficha por personagem.
+ * - charId = "main" é o personagem padrão.
+ */
+export function keyCharacter(username, charId = "main") {
+  // Ficha do personagem específico do usuário
+  return k("char", username, charId);
+}
+
+// ==== helpers de lista ====
+export function loadCharList(username) {
+  return loadJSON(keyCharList(username), []);
+}
+
+export function saveCharList(username, list) {
+  saveJSON(keyCharList(username), list);
+}
+
+export function loadActiveChar(username) {
+  return localStorage.getItem(keyActiveChar(username)) || "main";
+}
+
+export function saveActiveChar(username, charId) {
+  localStorage.setItem(keyActiveChar(username), charId);
+}
+
 /**
  * Remove uma key do storage.
  */
@@ -44,13 +83,8 @@ export function removeKey(key) {
 }
 
 // ===== Keys “oficiais” do projeto =====
-
 export function keyUser(username) {
   return k("user", username);
-}
-
-export function keyCharacter(username) {
-  return k("char", username);
 }
 
 export function keySession() {

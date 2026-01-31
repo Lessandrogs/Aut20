@@ -71,5 +71,10 @@ export function pegarUI() {
     // reset personagem
     resetPersonagem: $id("resetPersonagem"),
 
+    // ===== AUTH / PERSONAGENS =====
+    charSelect: $id("charSelect"),
+    btnNewChar: $id("btnNewChar"),
+    btnDeleteChar: $id("btnDeleteChar"),
+
   };
 }
