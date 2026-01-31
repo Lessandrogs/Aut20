@@ -60,9 +60,21 @@ function renderRecursos(personagem, ui) {
   personagem.recursos.defesa = defesa;
 
   // “Clamp” dos atuais (não deixa passar do máximo)
-  personagem.recursos.pvAtual = clampInt(personagem.recursos.pvAtual, 0, pvMax, pvMax);
-  personagem.recursos.pmAtual = clampInt(personagem.recursos.pmAtual, 0, pmMax, pmMax);
+ function clampRecursos(personagem, pvMax, pmMax) {
+  personagem.recursos.pvAtual = clampInt(
+    personagem.recursos.pvAtual,
+    0,
+    pvMax,
+    pvMax
+  );
 
+  personagem.recursos.pmAtual = clampInt(
+    personagem.recursos.pmAtual,
+    0,
+    pmMax,
+    pmMax
+  );
+}
   // Render na UI
   ui.vidaMax.textContent = String(pvMax);
   ui.manaMax.textContent = String(pmMax);
