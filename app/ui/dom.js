@@ -19,6 +19,14 @@ export function pegarUI() {
     penalidadeArmadura: $id("penalidadeArmadura"),
     statusPenalidade: $id("statusPenalidade"),
 
+    // ===== AUTH =====
+    username: $id("username"),
+    password: $id("password"),
+    btnRegister: $id("btnRegister"),
+    btnLogin: $id("btnLogin"),
+    btnLogout: $id("btnLogout"),
+    authStatus: $id("authStatus"),
+
     // Classe
     classe: $id("classe"),
     statusClasse: $id("statusClasse"),
@@ -59,5 +67,14 @@ export function pegarUI() {
 
     // ===== PERÍCIAS =====
     skillsContainer: $id("skillsContainer"),
+
+    // reset personagem
+    resetPersonagem: $id("resetPersonagem"),
+
+    // ===== AUTH / PERSONAGENS =====
+    charSelect: $id("charSelect"),
+    btnNewChar: $id("btnNewChar"),
+    btnDeleteChar: $id("btnDeleteChar"),
+
   };
 }
